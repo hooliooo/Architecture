@@ -1,7 +1,6 @@
 //
-//  EventID.swift
-//  
-//
+//  Architecture
+//  MIT license, see LICENSE file for details
 //  Created by Julio Alorro on 31.08.23.
 //
 

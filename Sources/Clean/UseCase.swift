@@ -1,9 +1,9 @@
 //
-//  UseCase.swift
-//  
-//
+//  Architecture
+//  MIT license, see LICENSE file for details
 //  Created by Julio Alorro on 31.08.23.
 //
+
 
 /**
  A UseCase encapsulates a list of actions or event steps that are executed between an actor and a system to achieve some goal. In other words,
