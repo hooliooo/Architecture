@@ -1,7 +1,6 @@
 //
-//  File.swift
-//  
-//
+//  Architecture
+//  MIT license, see LICENSE file for details
 //  Created by Julio Alorro on 01.09.23.
 //
 
