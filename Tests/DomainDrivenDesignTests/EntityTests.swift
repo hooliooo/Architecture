@@ -1,39 +1,30 @@
-import XCTest
-@testable import DomainDrivenDesign
+//
+//  Architecture
+//  MIT license, see LICENSE file for details
+//  Created by Julio Alorro on 26.05.25.
+//
 
-final class EntityTests: XCTestCase {
+import struct Foundation.UUID
+import DomainDrivenDesign
+import Testing
 
+@Suite("Entity protocol tests")
+class EntityTests {
 
-//  func testTwoEntitiesAreEqualWhenTheyShareTheSameId() throws {
-//
-//    let id = UUID()
-//
-//    let a = TestEntity(id: id, anotherProperty: "Test 1")
-//    let b = TestEntity(id: id, anotherProperty: "Test 234")
-//
-//    XCTAssertEqual(a, b)
-//    XCTAssertEqual(a.hashValue, b.hashValue)
-//
-//  }
-//
-//  func testTwoEntitiesAreNotEqualWhenTheyHaveDifferentIds() throws {
-//
-//    let a = TestEntity(id: UUID(), anotherProperty: "Test 1")
-//    let b = TestEntity(id: UUID(), anotherProperty: "Test 1")
-//
-//    XCTAssertNotEqual(a, b)
-//    XCTAssertNotEqual(a.hashValue, b.hashValue)
-//
-//  }
+  @Test("Entity equality should only be based on id")
+  func test() {
+    let id = UUID()
+    let a = TestEntity(id: TestEntity.ID(value: id), anotherProperty: "foo")
+    let b = TestEntity(id: TestEntity.ID(value: id), anotherProperty: "bar")
+
+    #expect(a == b)
+  }
 
 }
 
-//class TestEntity: Entity<UUID> {
-//
-//  let anotherProperty: String
-//
-//  public init(id: UUID, anotherProperty: String) {
-//    self.anotherProperty = anotherProperty
-//    super.init(id: EntityID<UUID>(value: id))
-//  }
-//}
+@Entity(UUID.self)
+@Init
+class TestEntity {
+  let id: TestEntity.ID
+  let anotherProperty: String
+}

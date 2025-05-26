@@ -1,7 +1,6 @@
 //
-//  Test.swift
 //  Architecture
-//
+//  MIT license, see LICENSE file for details
 //  Created by Julio Alorro on 16.03.25.
 //
 
@@ -10,6 +9,7 @@ import DDDMacros
 import MacroTesting
 
 @Suite(
+  "InitMacro tests",
   .macros(
     record: .missing,
     macros: ["Init": InitMacro.self]
@@ -17,8 +17,8 @@ import MacroTesting
 )
 struct InitTests {
 
-  @Test
-  func testApiObjects() throws {
+  @Test("The macro should generate the expected output")
+  func test() throws {
     assertMacro {
         """
         @Init

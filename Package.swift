@@ -84,12 +84,23 @@ let package = Package(
     ),
     .testTarget(
       name: "DomainDrivenDesignTests",
-      dependencies: ["DomainDrivenDesign"]
+      dependencies: [
+        "DomainDrivenDesign",
+        "DDDMacros",
+        .product(
+          name: "Testing",
+          package: "swift-testing"
+        )
+      ]
     ),
     .testTarget(
       name: "DDDMacrosTest",
       dependencies: [
         "DDDMacros",
+        .product(
+          name: "Testing",
+          package: "swift-testing"
+        ),
         .product(
           name: "MacroTesting",
           package: "swift-macro-testing"

@@ -37,12 +37,12 @@ public struct EntityMacro: ExtensionMacro {
     guard
       let argumentList = node.arguments?.as(LabeledExprListSyntax.self),
       let firstArg = argumentList.first,
-      let idType = firstArg.expression.as(DeclReferenceExprSyntax.self)?.baseName.text
+      let idType = firstArg.expression.as(MemberAccessExprSyntax.self)?.base?.as(DeclReferenceExprSyntax.self)?.baseName.text
     else { throw MacroExpansionErrorMessage("Expected a type for the ID struct declaration, e.g., @Entity(Int).") }
 
     let output: ExtensionDeclSyntax = try ExtensionDeclSyntax(
       """
-      extension \(typeName): Entity {
+      extension \(typeName): EntityRepresentable {
         /**
           The generated type-safe identifier for the Entity/Aggregate with underlying type of \(raw: idType)
           - Conforms to: `EntityID`

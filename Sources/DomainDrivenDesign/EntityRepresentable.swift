@@ -5,11 +5,11 @@
 //
 
 /**
- An Entity is an object that is defined primarily by its identity. Two Entities are the same, if they have the same identity/identifier,
- even if their attributes are different
+ An EntityRepresentable is an object that has Entity semantics, which means it is an object that is defined primarily by its identity.
+ Two Entities are the same, if they have the same identity/identifier, even if their attributes are different
  - Conforms to: `Hashable`
  */
-public protocol Entity: Hashable {
+public protocol EntityRepresentable: Hashable {
   /**
    The type of the id
    */
@@ -22,7 +22,7 @@ public protocol Entity: Hashable {
 
 }
 
-extension Entity {
+extension EntityRepresentable {
 
   public static func == (lhs: Self, rhs: Self) -> Bool {
     return lhs.id == rhs.id

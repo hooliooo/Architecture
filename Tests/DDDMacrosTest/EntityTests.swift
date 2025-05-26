@@ -1,7 +1,7 @@
 //
 //  Architecture
 //  MIT license, see LICENSE file for details
-//  Created by Julio Alorro on 16.03.25.
+//  Created by Julio Alorro on 26.03.25.
 //
 
 import Testing
@@ -9,19 +9,19 @@ import DDDMacros
 import MacroTesting
 
 @Suite(
-  "AggregateMacro tests",
+  "EntityMacro tests",
   .macros(
     record: .missing,
-    macros: ["Aggregate": AggregateMacro.self]
+    macros: ["Entity": EntityMacro.self]
   )
 )
-struct AggregateTests {
+struct EntityTests {
 
   @Test("The macro should generate the expected output")
   func test() throws {
     assertMacro {
         """
-        @Aggregate(UUID.self)
+        @Entity(UUID.self)
         public class User {
           public let id: User.ID
           public var firstName: String
@@ -59,10 +59,6 @@ struct AggregateTests {
             self.value = value
           }
         }
-      }
-
-      extension User: Aggregate {
-        public static let typeName: String = "User"
       }
       """
     }

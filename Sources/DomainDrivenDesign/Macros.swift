@@ -12,13 +12,13 @@ public macro Init() = #externalMacro(
     type: "InitMacro"
 )
 
-@attached(extension, conformances: Aggregate, Entity, names: arbitrary)
+@attached(extension, conformances: AggregateRepresentable, EntityRepresentable, names: arbitrary)
 public macro Aggregate(_ idType: Any.Type) = #externalMacro(
   module: "DDDMacros",
   type: "AggregateMacro"
 )
 
-@attached(extension, conformances: Entity, names: arbitrary)
+@attached(extension, conformances: EntityRepresentable, names: arbitrary)
 public macro Entity(_ idType: Any.Type) = #externalMacro(
   module: "DDDMacros",
   type: "EntityMacro"

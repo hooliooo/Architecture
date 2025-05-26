@@ -31,7 +31,7 @@ public struct AggregateMacro: ExtensionMacro {
 
     let decl2: ExtensionDeclSyntax = try ExtensionDeclSyntax(
       """
-      extension \(typeName): Aggregate {
+      extension \(typeName): AggregateRepresentable {
         public static let typeName: String = "\(typeName)"
       }
       """
