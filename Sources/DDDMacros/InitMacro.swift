@@ -40,6 +40,7 @@ public struct InitMacro: MemberMacro {
 
     return [
         """
+        
         \(accessModifier.trimmed) required init(
           \(raw: parameters)
         ) {

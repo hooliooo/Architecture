@@ -8,7 +8,7 @@ import DomainDrivenDesign
 import Testing
 
 @Suite("ValueObject protocol tests")
-class ValueObjectTests {
+struct ValueObjectTests {
 
   @Test("ValueObject equality should be based on all properties")
   func test() {

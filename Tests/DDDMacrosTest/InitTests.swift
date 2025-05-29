@@ -6,20 +6,17 @@
 
 import Testing
 import DDDMacros
-import MacroTesting
+import SwiftSyntaxMacroExpansion
+import SwiftSyntaxMacrosGenericTestSupport
 
 @Suite(
   "InitMacro tests",
-  .macros(
-    record: .missing,
-    macros: ["Init": InitMacro.self]
-  )
 )
 struct InitTests {
 
-  @Test("The macro should generate the expected output")
+  @Test("The init macro should correctly generate the expected code")
   func test() throws {
-    assertMacro {
+    assertMacroExpansion(
         """
         @Init
         public struct Something: Codable {
@@ -27,26 +24,29 @@ struct InitTests {
           let bar: Int
           let hello: Bool?
         }
-        """
-    } expansion: {
-      """
-      public struct Something: Codable {
-        let foo: String
-        let bar: Int
-        let hello: Bool?
-
-        public required init(
-          foo: String,
-          bar: Int,
-          hello: Bool?
-        ) {
-          self.foo = foo
-          self.bar = bar
-          self.hello = hello
+        """,
+        expandedSource: """
+        public struct Something: Codable {
+          let foo: String
+          let bar: Int
+          let hello: Bool?
+        
+            public required init(
+              foo: String,
+              bar: Int,
+              hello: Bool?
+            ) {
+              self.foo = foo
+              self.bar = bar
+              self.hello = hello
+            }
         }
-      }
-      """
-    }
+        """,
+        macroSpecs: ["Init": MacroSpec(type: InitMacro.self)],
+        failureHandler: { failure in
+          Issue.record(Comment(stringLiteral: failure.message))
+        }
+    )
   }
 }
 

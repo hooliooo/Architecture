@@ -6,32 +6,26 @@
 
 import Testing
 import DDDMacros
-import MacroTesting
+import SwiftSyntaxMacroExpansion
+import SwiftSyntaxMacrosGenericTestSupport
 
-@Suite(
-  "EntityMacro tests",
-  .macros(
-    record: .missing,
-    macros: ["Entity": EntityMacro.self]
-  )
-)
+@Suite("EntityMacro Tests")
 struct EntityTests {
 
-  @Test("The macro should generate the expected output")
-  func test() throws {
-    assertMacro {
-        """
-        @Entity(UUID.self)
-        public class User {
-          public let id: User.ID
-          public var firstName: String
-          public var lastName: String
-          public var username: String
-          public var email: String?
-        }
-        """
-    } expansion: {
+  @Test("The entity macro should correctly generate the expected code")
+  func test() {
+    assertMacroExpansion(
       """
+      @Entity(UUID.self)
+      public class User {
+        public let id: User.ID
+        public var firstName: String
+        public var lastName: String
+        public var username: String
+        public var email: String?
+      }
+      """,
+      expandedSource: """
       public class User {
         public let id: User.ID
         public var firstName: String
@@ -40,7 +34,7 @@ struct EntityTests {
         public var email: String?
       }
 
-      extension User: Entity {
+      extension User: EntityRepresentable {
         /**
           The generated type-safe identifier for the Entity/Aggregate with underlying type of UUID
           - Conforms to: `EntityID`
@@ -60,7 +54,11 @@ struct EntityTests {
           }
         }
       }
-      """
-    }
+      """,
+      macroSpecs: ["Entity": MacroSpec(type: EntityMacro.self)],
+      failureHandler: { failure in
+        Issue.record(Comment(stringLiteral: failure.message))
+      }
+    )
   }
 }

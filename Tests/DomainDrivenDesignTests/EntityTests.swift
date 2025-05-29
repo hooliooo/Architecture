@@ -5,11 +5,11 @@
 //
 
 import struct Foundation.UUID
-import DomainDrivenDesign
+@testable import DomainDrivenDesign
 import Testing
 
 @Suite("Entity protocol tests")
-class EntityTests {
+struct EntityTests {
 
   @Test("Entity equality should only be based on id")
   func test() {

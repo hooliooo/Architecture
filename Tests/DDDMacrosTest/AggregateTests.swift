@@ -6,32 +6,26 @@
 
 import Testing
 import DDDMacros
-import MacroTesting
+import SwiftSyntaxMacroExpansion
+import SwiftSyntaxMacrosGenericTestSupport
 
-@Suite(
-  "AggregateMacro tests",
-  .macros(
-    record: .missing,
-    macros: ["Aggregate": AggregateMacro.self]
-  )
-)
+@Suite("AggregateMacro Tests")
 struct AggregateTests {
 
-  @Test("The macro should generate the expected output")
-  func test() throws {
-    assertMacro {
-        """
-        @Aggregate(UUID.self)
-        public class User {
-          public let id: User.ID
-          public var firstName: String
-          public var lastName: String
-          public var username: String
-          public var email: String?
-        }
-        """
-    } expansion: {
+  @Test("The aggregate macro should correctly generate the expected code")
+  func test() {
+    assertMacroExpansion(
       """
+      @Aggregate(UUID.self)
+      public class User {
+        public let id: User.ID
+        public var firstName: String
+        public var lastName: String
+        public var username: String
+        public var email: String?
+      }
+      """,
+      expandedSource: """
       public class User {
         public let id: User.ID
         public var firstName: String
@@ -40,7 +34,7 @@ struct AggregateTests {
         public var email: String?
       }
 
-      extension User: Entity {
+      extension User: EntityRepresentable {
         /**
           The generated type-safe identifier for the Entity/Aggregate with underlying type of UUID
           - Conforms to: `EntityID`
@@ -61,10 +55,14 @@ struct AggregateTests {
         }
       }
 
-      extension User: Aggregate {
+      extension User: AggregateRepresentable {
         public static let typeName: String = "User"
       }
-      """
-    }
+      """,
+      macroSpecs: ["Aggregate": MacroSpec(type: AggregateMacro.self)],
+      failureHandler: { failure in
+        Issue.record(Comment(stringLiteral: failure.message))
+      }
+    )
   }
 }
